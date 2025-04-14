@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 import random
 
-from steven.sampling import sample_evenly, bin_series_discrete, bin_series_continuous, subset_series_evenly
+from steven.sampling import sample_evenly
+from steven.subsets import subset_series_evenly
+from steven.binning import bin_series_discrete, bin_series_continuous
 
 
 @pytest.fixture(scope='session')
