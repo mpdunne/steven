@@ -28,7 +28,7 @@ def get_bin_indices_discrete(values: Sequence[Hashable]) -> Dict[Hashable, List[
     return bins
 
 
-def get_bin_indices_continuous(values: Union[Sequence[Number], np.ndarray],
+def get_bin_indices_continuous(values: Union[Sequence[Number], np.ndarray, "pandas.Series"],
                                n_bins: int,
                                bin_range: Union[Tuple[float, float], None] = None
                                ) -> Dict[Tuple[float, float], List[int]]:
@@ -45,6 +45,9 @@ def get_bin_indices_continuous(values: Union[Sequence[Number], np.ndarray],
 
     if value_array.ndim != 1:
         raise ValueError("Input data must be 1-dimensional.")
+
+    if len(value_array) == 0:
+        raise ValueError("Input data cannot be empty.")
 
     if not np.issubdtype(value_array.dtype, np.number):
         raise TypeError("Input data must be numeric.")
