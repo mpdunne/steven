@@ -48,13 +48,13 @@ def test_get_bin_indices_discrete_unhashable_list():
         get_bin_indices_discrete(bad_data)
 
 
-def test_get_bin_indices_discrete_non_flat():
+def test_get_bin_indices_discrete_non_flat_raises():
     bad_data = [[1, 2], 3, 4]
     with pytest.raises(TypeError):
         get_bin_indices_discrete(bad_data)
 
 
-def test_get_bin_indices_discrete_non_sequence():
+def test_get_bin_indices_discrete_non_sequence_raises():
     bad_data = {"a": 1, "b": 2}
     with pytest.raises(TypeError):
         get_bin_indices_discrete(bad_data)
@@ -94,30 +94,30 @@ def test_get_bin_indices_continuous_inputs_works(list_continuous, input_type):
     assert sorted(all_indices) == list(range(len(list_continuous)))
 
 
-def test_get_bin_indices_continuous_non_numeric():
+def test_get_bin_indices_continuous_non_numeric_raises():
     bad_data = ["apple", "banana", "carrot"]
     with pytest.raises(TypeError):
         get_bin_indices_continuous(bad_data, n_bins=5)
 
 
-def test_get_bin_indices_continuous_non_flat():
+def test_get_bin_indices_continuous_non_flat_raises():
     bad_data = [[1.0, 2.0], 3.0, 4.0]
     with pytest.raises(TypeError):
         get_bin_indices_continuous(bad_data, n_bins=5)
 
 
-def test_get_bin_indices_continuous_non_sequence():
+def test_get_bin_indices_continuous_non_sequence_raises():
     bad_data = {"a": 1.0, "b": 2.0}
     with pytest.raises(ValueError):
         get_bin_indices_continuous(bad_data, n_bins=5)
 
 
-def test_get_bin_indices_continuous_zero_range():
+def test_get_bin_indices_continuous_zero_range_raises():
     data = [1.0, 1.0, 1.0]
     with pytest.raises(ValueError):
         get_bin_indices_continuous(data, n_bins=3)
 
 
-def test_get_bin_indices_continuous_empty():
+def test_get_bin_indices_continuous_empty_raises():
     with pytest.raises(ValueError):
         bins = get_bin_indices_continuous([], n_bins=5)

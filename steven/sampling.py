@@ -6,10 +6,10 @@ from typing import Any, List, Sequence
 from steven.seeds import Seedable, get_rng
 
 
-def sample_evenly(buckets: Sequence[Sequence[Any]],
-                  total: int,
-                  random_state: Seedable = None,
-                  progress: bool = True) -> List[Any]:
+def sample_buckets_evenly(buckets: Sequence[Sequence[Any]],
+                          total: int,
+                          random_state: Seedable = None,
+                          progress: bool = True) -> List[Any]:
     """
     Sample evenly across a given set of buckets, up to a target total amount. Buckets are
     treated independently, and items within each bucket are sampled randomly.

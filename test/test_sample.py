@@ -1,7 +1,7 @@
 import copy
 import pytest
 
-from steven.sampling import sample_evenly, sample_weighted
+from steven.sampling import sample_buckets_evenly, sample_weighted
 
 
 @pytest.fixture(scope='session')
@@ -9,23 +9,23 @@ def items():
     return [['a1', 'a2', 'a3', 'a4'], ['b1', 'b2', 'b3'], ['c1', 'c2'], ['d1']]
 
 
-def test_sample_evenly_total_too_big(items):
+def test_sample_buckets_evenly_total_too_big(items):
     total_size = sum(len(x) for x in items)
     with pytest.raises(ValueError) as e:
-        _ = sample_evenly(items, total=total_size + 1)
+        _ = sample_buckets_evenly(items, total=total_size + 1)
     assert 'too large' in str(e.value)
 
 
-def test_sample_evenly_total_same_size_as_n_items(items):
+def test_sample_buckets_evenly_total_same_size_as_n_items(items):
     total_size = sum(len(x) for x in items)
-    result = sample_evenly(items, total=total_size)
+    result = sample_buckets_evenly(items, total=total_size)
     assert len(result) == total_size
     flat_items = {item for bucket in items for item in bucket}
     assert set(result) == flat_items
 
 
-def test_sample_evenly_basic_functionality(items):
-    sample = sample_evenly(items, total=4)
+def test_sample_buckets_evenly_basic_functionality(items):
+    sample = sample_buckets_evenly(items, total=4)
     assert len(sample) == 4
     # Should have one item from each bucket.
     heads = [s[0] for s in sample]
@@ -33,20 +33,20 @@ def test_sample_evenly_basic_functionality(items):
     assert set(heads) == {'a', 'b', 'c', 'd'}
 
 
-def test_sample_evenly_does_not_modify_original_data(items):
+def test_sample_buckets_evenly_does_not_modify_original_data(items):
     items_copy = copy.deepcopy(items)
-    _ = sample_evenly(items, total=5)
+    _ = sample_buckets_evenly(items, total=5)
     assert items == items_copy
 
 
-def test_sample_evenly_same_seed_gives_same_result(items):
-    sample1 = sample_evenly(items, total=6, random_state=8675309)
-    sample2 = sample_evenly(items, total=6, random_state=8675309)
+def test_sample_buckets_evenly_same_seed_gives_same_result(items):
+    sample1 = sample_buckets_evenly(items, total=6, random_state=8675309)
+    sample2 = sample_buckets_evenly(items, total=6, random_state=8675309)
     assert sample1 == sample2
 
 
-def test_sample_evenly_bucket_empty(items):
-    sample = sample_evenly(items, total=8, random_state=8675309)
+def test_sample_buckets_evenly_bucket_empty(items):
+    sample = sample_buckets_evenly(items, total=8, random_state=8675309)
     assert len(sample) == 8
     heads = [s[0] for s in sample]
     assert heads.count('a') >= 2
@@ -57,11 +57,11 @@ def test_sample_evenly_bucket_empty(items):
 
 @pytest.mark.parametrize("bucket_type", [list, tuple])
 @pytest.mark.parametrize("outer_type", [list, tuple])
-def test_sample_evenly_accepts_various_sequence_types(items, bucket_type, outer_type):
+def test_sample_buckets_evenly_accepts_various_sequence_types(items, bucket_type, outer_type):
     converted_items = outer_type([bucket_type(bucket) for bucket in items])
 
     total_size = sum(len(bucket) for bucket in converted_items)
-    result = sample_evenly(converted_items, total=total_size, random_state=123)
+    result = sample_buckets_evenly(converted_items, total=total_size, random_state=123)
     assert len(result) == total_size
 
     flat_items = {item for bucket in converted_items for item in bucket}
