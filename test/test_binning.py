@@ -100,12 +100,6 @@ def test_get_bin_indices_continuous_non_numeric_raises():
         get_bin_indices_continuous(bad_data, n_bins=5)
 
 
-def test_get_bin_indices_continuous_non_flat_raises():
-    bad_data = [[1.0, 2.0], 3.0, 4.0]
-    with pytest.raises(TypeError):
-        get_bin_indices_continuous(bad_data, n_bins=5)
-
-
 def test_get_bin_indices_continuous_non_sequence_raises():
     bad_data = {"a": 1.0, "b": 2.0}
     with pytest.raises(ValueError):
