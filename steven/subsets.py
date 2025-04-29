@@ -2,17 +2,15 @@ from typing import Hashable
 
 import pandas as pd
 
-from steven.binning import bin_series_continuous, bin_series_discrete
-from steven.sampling import sample_evenly
-
-i
+from steven.binning import get_bin_indices_discrete, get_bin_indices_continuous
+from steven.sampling import sample_buckets_evenly
 
 
 def subset_series_evenly(series: pd.Series,
                          sample_size: int,
                          mode: str = 'continuous',
                          n_bins=100,
-                         random_seed: Hashable = None,
+                         random_state: Hashable = None,
                          progress: bool = True):
     """
     Sample a series according to some chosen binning system.
@@ -22,20 +20,18 @@ def subset_series_evenly(series: pd.Series,
     :sample_size: The number of bins in which to put data.
     :mode: Whether to treat the data as 'continuous' or 'discrete'.
     :n_bins: The number of bins, if mode='continuous'
-    :random_seed: The random seed to use.
+    :random_state: The random state or random seed to use.
     """
-    series_reindexed = series.reset_index(drop=True, inplace=False)
+    values = series.values
 
     if mode == 'continuous':
-        value_bins = bin_series_continuous(series_reindexed, n_bins=n_bins)
+        bins, bin_ixs = zip(*get_bin_indices_continuous(values, n_bins=n_bins).items())
     elif mode == 'discrete':
-        value_bins = bin_series_discrete(series_reindexed)
+        bins, bin_ixs = zip(*get_bin_indices_discrete(values).items())
     else:
         raise ValueError('Mode must be either continuous or discrete.')
 
-    value_bin_ixs = [[*x.index] for x in value_bins]
-    value_bins_ixs_sampled = sample_evenly(value_bin_ixs, sample_size, seed=random_seed, progress=progress)
+    bins_ixs_sampled = sample_buckets_evenly(bin_ixs, sample_size, random_state=random_state, progress=progress)
 
-    series_sampled = series.iloc[value_bins_ixs_sampled]
-    series_sampled.index = series.index[value_bins_ixs_sampled]
+    series_sampled = series.iloc[bins_ixs_sampled]
     return series_sampled

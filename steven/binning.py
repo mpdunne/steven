@@ -11,8 +11,11 @@ def get_bin_indices_discrete(values: Sequence[Hashable]) -> Dict[Hashable, List[
 
     :data: The input sequence. Must be hashable (numeric, float, etc.).
     """
-    if not isinstance(values, (list, tuple)):
-        raise TypeError("Input must be a list or tuple.")
+    if not isinstance(values, (list, tuple, np.ndarray)):
+        raise TypeError("Input must be a list, tuple, or a 1-D numpy array.")
+
+    if isinstance(values, np.ndarray) and values.ndim != 1:
+        raise TypeError('Only 1-D NumPy arrays are allowed.')
 
     bins = {}
     for ix, value in enumerate(values):

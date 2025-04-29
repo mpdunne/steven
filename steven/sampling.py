@@ -1,7 +1,5 @@
-from typing import Union
-
 from tqdm.auto import tqdm
-from typing import Any, List, Sequence
+from typing import Any, List, Sequence, Union
 
 from steven.seeds import Seedable, get_rng
 
@@ -29,22 +27,35 @@ def sample_buckets_evenly(buckets: Sequence[Sequence[Any]],
 
     rng = get_rng(random_state)
 
-    bucket_indices = [list(range(len(bucket))) for bucket in buckets]
+    # The indices within each bucket. We do this to avoid changing the buckets themselves.
+    bucket_inner_indices = [[*range(len(bucket))] for bucket in buckets]
+
+    # The indices of the buckets. We shuffle these to make sure we don't bias to the earlier buckets.
+    bucket_indices = [*range(len(buckets))]
     rng.shuffle(bucket_indices)
 
     with tqdm(total=total, disable=(not progress)) as pbar:
+
         while True:
-            for i in range(len(buckets)):
-                indices = bucket_indices[i]
-                if not indices:
+
+            # Keep track of any buckets that we've emptied.
+            empty_bucket_indices = []
+
+            for i in bucket_indices:
+                ixs = bucket_inner_indices[i]
+                if not ixs:
+                    empty_bucket_indices.append(i)
                     continue
-                chosen_ix = rng.choice(indices)
+                chosen_ix = rng.choice(ixs)
                 result.append(buckets[i][chosen_ix])
-                indices.remove(chosen_ix)
+                ixs.remove(chosen_ix)
                 total_sampled += 1
                 pbar.update(1)
                 if total_sampled == total:
                     return result
+
+            for bucket_ix in empty_bucket_indices:
+                bucket_indices.remove(bucket_ix)
 
 
 def sample_weighted(items: Sequence[Any],
