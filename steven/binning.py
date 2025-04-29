@@ -31,7 +31,7 @@ def get_bin_indices_discrete(values: Sequence[Hashable]) -> Dict[Hashable, List[
     return bins
 
 
-def get_bin_indices_continuous(values: Union[Sequence[Number], np.ndarray, "pandas.Series"],
+def get_bin_indices_continuous(values: Union[Sequence[Number], np.ndarray],
                                n_bins: int,
                                bin_range: Union[Tuple[float, float], None] = None
                                ) -> Dict[Tuple[float, float], List[int]]:
