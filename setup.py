@@ -9,8 +9,9 @@ if os.path.isfile('requirements.txt'):
 
 setup(
     name='steven',
-    version='0.2.0',
+    version='0.2.1',
     author='Michael Peter Dunne',
+    description="Sample Things EVENly",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     include_package_data=True,
