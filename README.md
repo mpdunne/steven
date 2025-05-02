@@ -15,12 +15,15 @@ import matplotlib.pyplot as plt
 
 from steven.sampling import sample_data_evenly
 
+# Seed for reproducibility
+seed = 8675309
+
 # Create some data...
 data = np.exp(np.random.rand(100_000))
 plt.hist(data, bins=50, range=[data.min(), data.max()], label='All data')
 
 # Now sample the data...
-data_sampled = subset_data_evenly(data, n_bins=50, sample_size=20_000)
+data_sampled = sample_data_evenly(data, n_bins=50, sample_size=20_000, random_state=seed)
 plt.hist(data_sampled, bins=50, range=[data.min(), data.max()], label='Sampled')
 
 plt.legend()
