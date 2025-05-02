@@ -9,7 +9,7 @@ if os.path.isfile('requirements.txt'):
 
 setup(
     name='steven',
-    version='0.2.1',
+    version='0.3.0',
     author='Michael Peter Dunne',
     description="Sample Things EVENly",
     long_description=open('README.md').read(),
