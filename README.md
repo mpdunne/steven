@@ -38,7 +38,7 @@ The result should look like this:
 
 <img width="377" alt="image" src="https://github.com/user-attachments/assets/051b34ff-66eb-4f8b-953e-aef1289832b3" />
 
-## Returning indices
+## Keeping track of sampled indices
 
 Optionally, `subset_data_evenly` accepts a `return_ixs` argument, which allows us to keep track of which indexes have been sampled from the inputted data. Continuing with the above example, we can do:
 
