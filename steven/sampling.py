@@ -74,6 +74,7 @@ def sample_data_evenly(data: SequenceLike,
                        return_ixs: bool = False) -> Union[SequenceLike, Tuple[SequenceLike, List[int]]]:
     """
     Sample a series according to some chosen binning system.
+
     Returns the subsetted data, and optionally a list of which indices have survived
 
     :data: The input data (list, tuple, 1-D numpy array, or Series).
