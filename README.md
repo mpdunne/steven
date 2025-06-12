@@ -2,6 +2,8 @@
 
 **Steven (Sample Things EVENly)** helps you sample your data in nice easy ways, evenly across the range of the data!
 
+Steven is available on PyPI: `pip install steven`.
+
 ## How to use Steven
 
 The main method of `steven` is `subset_data_evenly`. This takes as input a sequence-liked object such as a `list`, `tuple`, `np.ndarray` or `pd.Series`, and samples it in such a way that the items returned represent a balanced distribution across the data range.
