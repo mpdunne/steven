@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "steven"
+version = "0.3.3"
+description = "Sample Things EVENly"
+readme = "README.md"
+authors = [
+  { name = "Michael Peter Dunne" }
+]
+requires-python = ">=3.8"
+dependencies = [
+  "numpy",
+  "pandas",
+  "tqdm"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+
+[tool.setuptools.packages.find]
+include = ["steven", "steven.*"]
